@@ -1,0 +1,37 @@
+# docker-compose.yml
+
+version: '3.6'
+
+services:
+  checkmk:
+    container_name: checkmk
+    image: checkmk/check-mk-raw:2.1.0p13
+    tmpfs:
+      - /opt/omd/sites/cmk/tmp:uid=1000,gid=1000
+    ulimits:
+      nofile: 1024
+    volumes:
+      - ./monitoring:/omd/sites
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8080:5000"
+    restart: unless-stopped
+    networks:
+      checkmk_network:
+
+  nginx:
+    image: nginx:1.22.0
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx/conf.d/
+      - ./data/nginx/ssl:/etc/nginx/ssl/
+    restart: unless-stopped
+    depends_on:
+      - checkmk
+    networks:
+      - checkmk_network
+
+networks:
+    checkmk_network:
