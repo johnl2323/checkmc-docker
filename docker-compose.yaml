@@ -19,19 +19,5 @@ services:
     networks:
       checkmk_network:
 
-  nginx:
-    image: nginx:1.22.0
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx:/etc/nginx/conf.d/
-      - ./data/nginx/ssl:/etc/nginx/ssl/
-    restart: unless-stopped
-    depends_on:
-      - checkmk
-    networks:
-      - checkmk_network
-
 networks:
     checkmk_network:
