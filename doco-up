@@ -1,4 +1,5 @@
 #!/bin/bash -e
 
+
 echo "Starting checkmk..."
-docker-compose -p checkmk $*
+docker compose -p checkmk up -d

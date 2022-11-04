@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+echo "Downing checkmk..."
+docker compose -p checkmk down
